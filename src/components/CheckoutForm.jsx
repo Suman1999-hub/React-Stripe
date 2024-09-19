@@ -16,11 +16,11 @@ const CheckoutForm = () => {
     if (!stripe || !elements) {
       return; // Stripe.js hasn't loaded
     }
-
+    const link = location.origin;
     const result = await stripe.confirmPayment({
       elements,
       confirmParams: {
-        return_url: "http://localhost:5173/successful",
+        return_url: `${link}+/successful`,
       },
     });
 
