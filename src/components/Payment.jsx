@@ -23,35 +23,35 @@ function Payment() {
     intializeStrip();
   }, []);
 
-  const fetchClientSecret = async () => {
-    const payload = new URLSearchParams({
-      currency: "USD",
-      amount: 1000,
-    });
+  // const fetchClientSecret = async () => {
+  //   const payload = new URLSearchParams({
+  //     currency: "USD",
+  //     amount: 1000,
+  //   });
 
-    const response = await fetch("https://api.stripe.com/v1/payment_intents", {
-      method: "POST",
-      body: payload.toString(),
-      headers: {
-        Authorization: `Bearer sk_test_51Q0HK4P0AD2jC8VgUjyUFPUzrXQqgduJNizwAyer1XSBwAtXJ9abDrcKMpFsdA424O80Nr19rAikUqRyLlCe8VwK00Oj2Kxpbb`,
-        "Content-Type": "application/x-www-form-urlencoded",
-      },
-    });
+  //   const response = await fetch("https://api.stripe.com/v1/payment_intents", {
+  //     method: "POST",
+  //     body: payload.toString(),
+  //     headers: {
+  //       Authorization: `Bearer sk_test_51Q0HK4P0AD2jC8VgUjyUFPUzrXQqgduJNizwAyer1XSBwAtXJ9abDrcKMpFsdA424O80Nr19rAikUqRyLlCe8VwK00Oj2Kxpbb`,
+  //       "Content-Type": "application/x-www-form-urlencoded",
+  //     },
+  //   });
 
-    if (!response.ok) {
-      throw new Error(`Error: ${response.statusText}`);
-    }
+  //   if (!response.ok) {
+  //     throw new Error(`Error: ${response.statusText}`);
+  //   }
 
-    const data = await response.json();
-    setStripeClientSec(data.client_secret);
-    console.log(data);
-  };
+  //   const data = await response.json();
+  //   setStripeClientSec(data.client_secret);
+  //   console.log(data);
+  // };
 
-  useEffect(() => {
-    fetchClientSecret();
-  }, []);
+  // useEffect(() => {
+  //   fetchClientSecret();
+  // }, []);
 
-  if (!stripePromise || !stripeClientSec) {
+  if (!stripePromise) {
     return <p>Stripe Loading</p>;
   }
   console.log(stripePromise);
@@ -59,7 +59,10 @@ function Payment() {
     <Elements
       stripe={stripePromise}
       options={{
-        clientSecret: stripeClientSec,
+        // clientSecret: stripeClientSec,
+        mode: "payment",
+        amount: 1000,
+        currency: "usd",
       }}
     >
       <CheckoutForm />
